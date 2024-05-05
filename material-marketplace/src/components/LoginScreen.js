@@ -35,9 +35,38 @@ const LoginModal = ({ show, handleClose, modalType }) => {
     setShowCompanyField(true);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic based on modalType
+    const formData = {
+      email: e.target.elements.formBasicEmail.value,
+      password: e.target.elements.formBasicPassword.value,
+      companyName: showCompanyField ? e.target.elements.formBasicCompany.value : ''
+    };
+
+    console.log(e.target.elements.formBasicEmail.value);
+    console.log(e.target.elements.formBasicPassword.value);
+    console.log(e.target.elements.formBasicCompany.value);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Signup successful', data);
+      } else {
+        console.error('Signup failed:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+    }
+
   };
 
   return (
