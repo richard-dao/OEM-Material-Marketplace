@@ -44,9 +44,9 @@ const LoginModal = ({ show, handleClose, modalType }) => {
       companyName: showCompanyField ? e.target.elements.formBasicCompany.value : ''
     };
 
-    console.log(e.target.elements.formBasicEmail.value);
-    console.log(e.target.elements.formBasicPassword.value);
-    console.log(e.target.elements.formBasicCompany.value);
+    // console.log(e.target.elements.formBasicEmail.value);
+    // console.log(e.target.elements.formBasicPassword.value);
+    // console.log(e.target.elements.formBasicCompany.value);
 
     try {
       const response = await fetch('http://localhost:5000/api/signup', {

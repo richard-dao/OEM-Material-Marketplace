@@ -22,6 +22,8 @@ function App() {
             <Route path="/sell" element={<Sell />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
+          {/* Handle some sort of login logic */}
+          {/* If user is logged in, allow for other pages to be shown, else show only LandingPage and LandingCards */}
           <LandingPage />
           <LandingCards />
         </div>
