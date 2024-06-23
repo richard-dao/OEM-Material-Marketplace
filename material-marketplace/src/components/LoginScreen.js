@@ -48,24 +48,47 @@ const LoginModal = ({ show, handleClose, modalType }) => {
     // console.log(e.target.elements.formBasicPassword.value);
     // console.log(e.target.elements.formBasicCompany.value);
 
-    try {
-      const response = await fetch('http://localhost:5000/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
+    // If sign up try this
+    if (showCompanyField){
+      try {
+        const response = await fetch('http://localhost:5000/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Signup successful', data);
-      } else {
-        console.error('Signup failed:', response.statusText);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Signup successful', data);
+        } else {
+          console.error('Signup failed:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error signing up:', error.message);
       }
-    } catch (error) {
-      console.error('Error signing up:', error.message);
+    } else {
+      try {
+        const response = await fetch('http://localhost:5000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Login successful', data);
+        } else {
+          console.error('Signup failed', response.statusText);
+        } 
+      } catch (error) {
+        console.error('Error signing up:', error.message);
+      }
     }
+
 
   };
 
