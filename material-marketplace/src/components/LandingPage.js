@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import LoginModal from './LoginScreen';
 
-const LandingPage = () => {
+const LandingPage = ( { onLoginSuccess, isLoggedIn } ) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [modalType, setModalType] = useState('login');
 
@@ -30,7 +30,7 @@ const LandingPage = () => {
         <Button variant="primary" onClick={handleLoginClick}>Login</Button>{' '}
         <Button variant="secondary" onClick={handleSignUpClick}>Sign Up</Button>
       </Container>
-      <LoginModal show={showLoginModal} handleClose={handleModalClose} modalType={modalType} />
+      <LoginModal show={showLoginModal} handleClose={handleModalClose} modalType={modalType} onLoginSuccess={onLoginSuccess}/>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 
-const LoginModal = ({ show, handleClose, modalType }) => {
+const LoginModal = ({ show, handleClose, modalType, onLoginSuccess }) => {
   const [showCompanyField, setShowCompanyField] = useState(false);
   const [submitButtonText, setSubmitButtonText] = useState('Login');
   const [secondaryButtonText, setSecondaryButtonText] = useState('Sign Up');
@@ -44,49 +44,43 @@ const LoginModal = ({ show, handleClose, modalType }) => {
       companyName: showCompanyField ? e.target.elements.formBasicCompany.value : ''
     };
 
-    // console.log(e.target.elements.formBasicEmail.value);
-    // console.log(e.target.elements.formBasicPassword.value);
-    // console.log(e.target.elements.formBasicCompany.value);
+    const endpoint = showCompanyField ? '/api/signup' : '/api/login';
+    
+    try {
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
 
-    // If sign up try this
-    if (showCompanyField){
-      try {
-        const response = await fetch('http://localhost:5000/api/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`${modalType} successful`, data);
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Signup successful', data);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        console.log(data.token);
+        console.log(data.user);
+
+        if (showCompanyField){
+          handleLogin();
         } else {
-          console.error('Signup failed:', response.statusText);
+          handleClose();
+          if (onLoginSuccess) {
+            onLoginSuccess(data.user);
+          }
         }
-      } catch (error) {
-        console.error('Error signing up:', error.message);
-      }
-    } else {
-      try {
-        const response = await fetch('http://localhost:5000/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        });
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Login successful', data);
-        } else {
-          console.error('Signup failed', response.statusText);
-        } 
-      } catch (error) {
-        console.error('Error signing up:', error.message);
+      } else {
+        // If response is not OK, parse the error message
+        const errorData = await response.json();
+        console.error(`${modalType} failed:`, errorData.error);
       }
+    } catch (error) {
+      console.error(`Error during ${modalType}:`, error.message);
     }
 
 

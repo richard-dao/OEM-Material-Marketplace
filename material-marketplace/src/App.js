@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Buy from './pages/Buy';
 import Sell from './pages/Sell';
@@ -8,87 +8,56 @@ import Cart from './pages/Cart';
 import GlobalStyle from './GlobalStyles';
 import LandingPage from './components/LandingPage';
 import LandingCards from './components/LandingCards';
+/* import LoginModal from './components/LoginScreen';*/
 
 function App() {
-  // State to track if user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
-  // Check if user is logged in on component mount
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  };
+
   useEffect(() => {
-    const loggedInStatus = localStorage.getItem('isLoggedIn');
-    if (loggedInStatus) {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (token && user) {
+      setUser(user);
       setIsLoggedIn(true);
     }
   }, []);
-
-  // Function to handle login
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    localStorage.setItem('isLoggedIn', true);
-  };
-
-  // Function to handle logout
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem('isLoggedIn');
-  };
-
-  // Protected Route Component
-  const ProtectedRoute = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/" />;
-  };
 
   return (
     <>
       <GlobalStyle />
       <Router>
         <div>
-          {/* Always display NavigationBar */}
-          <NavigationBar onLogout={handleLogout} />
-          
+          <NavigationBar onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>
           <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<LandingPage onLogin={handleLogin} />} />
-            
-            {/* Protected routes */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/buy"
-              element={
-                <ProtectedRoute>
-                  <Buy />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/sell"
-              element={
-                <ProtectedRoute>
-                  <Sell />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/cart"
-              element={
-                <ProtectedRoute>
-                  <Cart />
-                </ProtectedRoute>
-              }
-            />
-            
-            {/* Redirect unknown routes */}
-            <Route path="*" element={<Navigate to="/" />} />
+            {isLoggedIn ? (
+                <>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/buy" element={<Buy />} />
+                  <Route path="/sell" element={<Sell />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<LandingPage onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn}/>} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </>
+              )}
           </Routes>
-
-          {/* Display LandingCards only on the LandingPage */}
           {!isLoggedIn && <LandingCards />}
         </div>
       </Router>

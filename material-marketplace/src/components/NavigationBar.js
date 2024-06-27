@@ -5,7 +5,7 @@ import logo from "./images/logo_transparent.png";
 import LoginModal from './LoginScreen';
 import {Link, useLocation} from 'react-router-dom';
 
-const NavigationBar = () => {
+const NavigationBar = ({ onLoginSuccess, isLoggedIn, onLogout }) => {
     const [cartItems, setCartItems] = useState(0)
 
     const addToCart = () => {
@@ -70,9 +70,15 @@ const NavigationBar = () => {
                         </NavDropdown.Item>
                         <NavDropdown.Item href="#action5">Help</NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action6" onClick={handleLoginModalShow}>
-                        Login/Logout
-                        </NavDropdown.Item>
+                        {isLoggedIn ? (
+                            <NavDropdown.Item href="#" onClick={onLogout}>
+                            Logout
+                            </NavDropdown.Item>
+                        ) : (
+                            <NavDropdown.Item href="#" onClick={handleLoginModalShow}>
+                            Login
+                            </NavDropdown.Item>
+                        )}
                     </NavDropdown>
                     </Nav>
                     <Form className="d-flex">
@@ -90,7 +96,7 @@ const NavigationBar = () => {
             </Container>
             </Navbar>
         ))}
-        <LoginModal show={showLoginModal} handleClose={handleLoginModalClose} />
+        <LoginModal show={showLoginModal} handleClose={handleLoginModalClose} modalType={'login'} onLoginSuccess={onLoginSuccess}/>
         </>
     );
 }

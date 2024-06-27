@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const pool = require('../db');
+const jwt = require('jsonwebtoken');
+const secretKey = 'testSecretKey';
 
 const getUsers = async () => {
     try {
@@ -47,7 +49,10 @@ const login = async (req, res) => {
             const match = await bcrypt.compare(password, user.password);
 
             if (match) {
-                res.json({message: 'Login successful', user: {email: user.email, companyName: user.company_name} });
+                const token = jwt.sign({userId: user.id, username: user.username}, secretKey, {expiresIn: '24h'});
+                // console.log("Auth.js Token Generated: ", token);
+                res.json({message: 'Login successful', token, user: {username: user.username, email: user.email, companyName: user.company_name} });
+
             } else {
                 res.status(401).json({error: 'Invalid email or password'});
             }
@@ -63,5 +68,5 @@ const login = async (req, res) => {
 module.exports = {
     getUsers,
     signup,
-    login
+    login,
 };
