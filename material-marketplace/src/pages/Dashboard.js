@@ -1,14 +1,15 @@
 // Dashboard.js
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   BarElement,
   CategoryScale,
   LinearScale,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement,
 } from 'chart.js';
 
 // Register components with Chart.js
@@ -17,12 +18,13 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
 
 const Dashboard = () => {
-  // Sample data for Chart.js
-  const chartData = {
+  // Sample data for Bar Chart
+  const barChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
@@ -33,6 +35,31 @@ const Dashboard = () => {
         hoverBackgroundColor: 'rgba(75,192,192,0.6)',
         hoverBorderColor: 'rgba(75,192,192,1)',
         data: [65, 59, 80, 81, 56, 55, 40]
+      }
+    ]
+  };
+
+  // Sample data for Pie Charts
+  const pieChartData1 = {
+    labels: ['Category 1', 'Category 2', 'Category 3'],
+    datasets: [
+      {
+        label: 'Category Distribution',
+        data: [300, 50, 100],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+      }
+    ]
+  };
+
+  const pieChartData2 = {
+    labels: ['Segment 1', 'Segment 2', 'Segment 3'],
+    datasets: [
+      {
+        label: 'Segment Distribution',
+        data: [200, 150, 100],
+        backgroundColor: ['#FF6384', '#4BC0C0', '#FF9F40'],
+        hoverBackgroundColor: ['#FF6384', '#4BC0C0', '#FF9F40']
       }
     ]
   };
@@ -48,8 +75,44 @@ const Dashboard = () => {
 
       {/* Main Content Row */}
       <Row>
-        {/* Chart Section - 3/4 of the width */}
-        <Col md={9}>
+        {/* Left Section - 1/4 of the width for Pie Charts */}
+        <Col md={3}>
+          <Row className="mb-4">
+            <Col>
+              <Card>
+                <Card.Header>Pie Chart 1</Card.Header>
+                <Card.Body>
+                  <Pie 
+                    data={pieChartData1} 
+                    options={{
+                      maintainAspectRatio: false
+                    }}
+                    height={200}
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Card>
+                <Card.Header>Pie Chart 2</Card.Header>
+                <Card.Body>
+                  <Pie 
+                    data={pieChartData2} 
+                    options={{
+                      maintainAspectRatio: false
+                    }}
+                    height={200}
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Col>
+
+        {/* Middle Section - 2/4 of the width for Summary Cards and Bar Chart */}
+        <Col md={6}>
           {/* Row for Summary Cards */}
           <Row className="mb-4">
             <Col md={4}>
@@ -84,14 +147,14 @@ const Dashboard = () => {
             </Col>
           </Row>
 
-          {/* Row for the Chart */}
+          {/* Row for the Bar Chart */}
           <Row>
             <Col>
               <Card>
                 <Card.Header>Sales Performance</Card.Header>
                 <Card.Body>
                   <Bar 
-                    data={chartData} 
+                    data={barChartData} 
                     options={{
                       maintainAspectRatio: false,
                       scales: {
@@ -111,7 +174,7 @@ const Dashboard = () => {
           </Row>
         </Col>
 
-        {/* Side Section - 1/4 of the width */}
+        {/* Right Section - 1/4 of the width for Top Sold Items and Wishlist */}
         <Col md={3}>
           {/* Top Sold Items */}
           <Card className="mb-4">
