@@ -6,6 +6,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 
 const authControllers = require('./controllers/auth');
+const openAIControllers = require('./controllers/bot')
 
 // Middleware
 app.use(cors({
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.post('/api/signup', authControllers.signup);
 app.post('/api/login', authControllers.login);
+app.post('/api/bot', openAIControllers.botEndpoint);
 
 
 app.listen(PORT, async () => {

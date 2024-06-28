@@ -9,10 +9,14 @@ import GlobalStyle from './GlobalStyles';
 import LandingPage from './components/LandingPage';
 import LandingCards from './components/LandingCards';
 /* import LoginModal from './components/LoginScreen';*/
+import ChatBot from './components/Chatbot';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  if (user != null){
+    console.log("User is not null");
+  }
 
   const handleLoginSuccess = (userData) => {
     setUser(userData);
@@ -61,6 +65,7 @@ function App() {
           {!isLoggedIn && <LandingCards />}
         </div>
       </Router>
+      <ChatBot />
     </>
   );
 }
