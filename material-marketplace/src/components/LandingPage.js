@@ -22,7 +22,7 @@ const LandingPage = ( { onLoginSuccess, isLoggedIn } ) => {
 
   return (
     <>
-      <Container className="text-center pt-5 pb-3" style={{marginTop: '5rem'}}>
+      <Container className="text-center pt-5 pb-3 mb-5" style={{marginTop: '5rem'}}>
         <h1 className="display-4 fw-normal">Material Marketplace for OEMs</h1>
           <div className="d-flex justify-content-center">
             <p className="mw-p">Material Marketplace is an online store for OEM companies who want to buy and sell materials. Get started by signing in or creating an account.</p>

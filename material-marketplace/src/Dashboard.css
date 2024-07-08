@@ -1,0 +1,118 @@
+/* src/components/Dashboard.css */
+
+.with-shadow {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Example shadow effect */
+  }
+
+/* Custom styles for Dropdown.Toggle */
+.custom-dropdown-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #000000; /* Customize text color if needed */
+  }
+  
+  .custom-dropdown-toggle::after {
+    display: none !important; /* Hide the default caret icon */
+  }
+  
+
+/* Style the button group to remove inner borders and make the buttons square */
+.custom-button-group .btn {
+    border-radius: 1 !important; /* Remove rounded corners */
+    margin: 0 !important; /* Remove margins to eliminate gaps */
+    padding: 0.75rem 1.25rem; /* Add padding for square appearance */
+     /* Remove default borders */
+  }
+
+  .custom-button-group .custom-button-first {
+    border-right: 1px solid transparent; /* Remove right border except for the last button */
+  }
+
+  .custom-button-group .custom-button {
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent; /* Remove right border except for the last button */
+  }
+
+  .custom-button-group .custom-button-last{
+    border-left: 1px solid transparent;
+  }
+  
+  /* Active button state */
+  .custom-button-group .btn-primary {
+    background-color: #007bff !important; /* Ensure primary background color */
+    color: white !important; /* Ensure white text */
+    border-color: #007bff !important; /* Match border color with background */
+  }
+  
+  /* Increase specificity by targeting .custom-card .card-header */
+  .custom-card .card-header {
+    background-color: transparent !important; /* Force background to be transparent */
+    border: none !important; /* Force removal of border */
+    font-weight: bold !important; /* Ensure the text is bold */
+    font-size: 1.2em !important; /* Increase font size */
+    padding: 0.75rem 1.25rem; /* Adjust padding to match typical header padding */
+    box-shadow: none; /* Remove any shadow effect */
+  }
+  
+  /* Add a subtle shadow to all cards */
+  .custom-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    border: none; /* Remove the default border */
+  }
+  
+  .custom-range-popout {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+  }
+  
+  .product-image-dashboard {
+    width: 35px; /* Adjust image size as needed */
+    height: auto;
+  }
+  
+  .custom-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding shadow effect */
+    border: none; /* Remove border */
+  }
+  
+  .table {
+    width: 100%;
+    margin-bottom: 0; /* Remove default table margin */
+  }
+  
+  .table th,
+  .table td {
+    border-top: none; /* Remove table border */
+    vertical-align: middle; /* Align table content vertically */
+
+  }
+  
+  .table th {
+    font-weight: bold; /* Make table headers bold */
+  }
+  
+  .dashboard-container {
+    max-height: 800px; /* Adjust as needed */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .bi-arrow-up {
+    fill: #96ECA9; /* Fill color */
+    stroke: #96ECA9; /* Stroke color */
+    stroke-width: 1; /* Stroke width */
+  }
+
+  .bi-arrow-down {
+    fill: #FE8383; /* Fill color */
+    stroke: #FE8383; /* Stroke color */
+    stroke-width: 1; /* Stroke width */
+  }

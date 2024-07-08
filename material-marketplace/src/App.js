@@ -1,26 +1,23 @@
+// App.js
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import Buy from './pages/Buy';
-import Sell from './pages/Sell';
-import Cart from './pages/Cart';
 import GlobalStyle from './GlobalStyles';
-import LandingPage from './components/LandingPage';
 import LandingCards from './components/LandingCards';
-/* import LoginModal from './components/LoginScreen';*/
 import ChatBot from './components/Chatbot';
+import AppRoutes from './AppRoutes';
+import Footer from './components/Footer';
+// import LoginModal from './components/LoginScreen'; // Import the LoginModal
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  if (user != null){
-    console.log("User is not null");
-  }
+  const [showLoginModal, setShowLoginModal] = useState(false); // State to control modal visibility
 
   const handleLoginSuccess = (userData) => {
     setUser(userData);
     setIsLoggedIn(true);
+    setShowLoginModal(false); // Close the modal upon successful login
   };
 
   const handleLogout = () => {
@@ -28,6 +25,7 @@ function App() {
     setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('lastPath');
   };
 
   useEffect(() => {
@@ -40,32 +38,23 @@ function App() {
     }
   }, []);
 
+  const handleAttemptAccess = () => {
+    // Show the login modal if the user is not logged in
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+    }
+  };
+
   return (
     <>
       <GlobalStyle />
       <Router>
-        <div>
-          <NavigationBar onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>
-          <Routes>
-            {isLoggedIn ? (
-                <>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/buy" element={<Buy />} />
-                  <Route path="/sell" element={<Sell />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="*" element={<Navigate to="/dashboard" replace />} />
-                </>
-              ) : (
-                <>
-                  <Route path="/" element={<LandingPage onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn}/>} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </>
-              )}
-          </Routes>
-          {!isLoggedIn && <LandingCards />}
-        </div>
+          <NavigationBar onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+          <AppRoutes isLoggedIn={isLoggedIn} handleLoginSuccess={handleLoginSuccess} onAttemptAccess={handleAttemptAccess} />
+          {!isLoggedIn && <LandingCards onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}
       </Router>
       <ChatBot />
+      <Footer />
     </>
   );
 }

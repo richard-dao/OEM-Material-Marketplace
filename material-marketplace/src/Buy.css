@@ -1,0 +1,34 @@
+/* Buy.css */
+.product-image {
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.table-no-border td,
+.table-no-border th {
+    border: none; /* Remove all borders */
+}
+
+.table-no-border thead th {
+    border-bottom: none; /* Remove bottom border for header cells */
+}
+
+/* Adjusting the layout for the grid and filters */
+.grid-container {
+    display: flex;
+}
+
+.grid-section {
+    flex: 4;
+    padding-right: 15px;
+}
+
+.filters-section {
+    flex: 1;
+    padding-left: 15px;
+    margin-right: 15px;
+}
+
+.product-name {
+    font-weight: bold;
+}
