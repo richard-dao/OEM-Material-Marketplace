@@ -7,10 +7,30 @@ const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
+  const [greeted, setGreeted] = useState(false);
 
   const toggleChatWindow = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prevIsOpen) => {
+      const newIsOpen = !prevIsOpen;
+      if (newIsOpen && !greeted) {
+        sendInitial();
+      }
+      return newIsOpen;
+    });
   };
+
+  const sendInitial = async () => {
+    setGreeted(true);
+    const newMessage = { role: 'user', content: userInput };
+    const updatedMessages = [...messages, newMessage]; // Append new user message
+    try {
+      const initialPrompt = await axios.post('http://localhost:5000/api/bot', {message: 'Hello!'});
+      const botMessage = { role: 'bot', content: initialPrompt.data.response };
+      setMessages([...updatedMessages, botMessage]);
+    } catch (error) {
+      console.error("Error sending initial", error);
+    }
+  }
 
   const handleSendMessage = async () => {
     if (userInput.trim() === '') {

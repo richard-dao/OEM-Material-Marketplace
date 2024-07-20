@@ -44,7 +44,7 @@ const NavigationBar = ({ onLoginSuccess, onLogout }) => {
                     className="mb-3"
                 >
                     <Container fluid>
-                        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+                        <Navbar.Brand as={Link} to="/dashboard" className="d-flex align-items-center">
                             <img
                                 src={logo}
                                 width="50"
